@@ -1,0 +1,329 @@
+<%- layout("layout/boilerplate.ejs") %>
+
+<style>
+/* Parent Dashboard Styles */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden; /* prevents horizontal scroll */
+  font-family: 'Segoe UI', sans-serif;
+  background: #f7f9fc;
+  color: #333;
+}
+
+/* Headings */
+.main {
+  margin-top: 5rem;
+}
+h1 {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+  font-size: 1.4rem;
+}
+
+/* Tutor Card */
+.tutor-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 16px auto;
+  max-width: 600px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+  text-align: left; /* make content aligned left */
+}
+
+.tutor-card:hover {
+  transform: translateY(-3px);
+}
+
+.tutor-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.tutor-card p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.tutor-card a {
+  color: #1976d2;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.tutor-card a:hover {
+  text-decoration: underline;
+}
+
+/* Status Highlight */
+.tutor-card p strong {
+  color: #222;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 0 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  .tutor-card {
+    padding: 14px;
+  }
+
+  .tutor-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .tutor-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  body {
+    padding: 0rem;
+  }
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .tutor-card {
+    padding: 12px;
+  }
+
+  .tutor-card h3 {
+    font-size: 1rem;
+  }
+
+  .tutor-card p {
+    font-size: 0.85rem;
+  }
+}
+
+
+/* status style  */
+/* Status Highlight */
+.tutor-card p strong:contains('Status:') {
+  /* default style */
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.tutor-card p:has(strong:contains('Status:')) {
+  display: inline-block;
+}
+
+.tutor-card p strong:contains('Status:') + text {
+  margin-left: 4px;
+}
+
+/* Status Colors */
+.tutor-card p strong + span {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.tutor-card p strong + span.accepted {
+  background-color: #28a745; /* green */
+}
+
+.tutor-card p strong + span.pending {
+  background-color: #ffc107; /* yellow/orange */
+  color: #333;
+}
+
+.tutor-card p strong + span.rejected {
+  background-color: #dc3545; /* red */
+}
+
+/* Make WhatsApp and Email buttons more attractive */
+.tutor-card a {
+  display: inline-block;
+  margin-top: 4px;
+  margin-right: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.2s;
+  color: #fff;
+}
+
+.tutor-card a[href*="wa.me"] {
+  background-color: #25d366; /* WhatsApp green */
+}
+
+.tutor-card a[href*="wa.me"]:hover {
+  background-color: #1da851;
+}
+
+.tutor-card a[href^="mailto:"] {
+  background-color: #007bff; /* Email blue */
+}
+
+.tutor-card a[href^="mailto:"]:hover {
+  background-color: #0056b3;
+}
+
+
+/* Enhanced Status Field Styling */
+.tutor-card p.status-row {
+  margin: 10px 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.tutor-card .status-label {
+  background: #e3e6ea;
+  color: #333;
+  padding: 4px 10px;
+  border-radius: 8px 0 0 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-right: 0;
+}
+
+.tutor-card .status-value {
+  padding: 4px 14px;
+  border-radius: 0 8px 8px 0;
+  font-weight: 700;
+  margin-left: 0;
+  text-transform: capitalize;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  font-size: 1.08em;
+}
+
+.tutor-card .status-value.accepted {
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  color: #fff;
+}
+
+.tutor-card .status-value.pending {
+  background: linear-gradient(90deg, #fceabb 0%, #f8b500 100%);
+  color: #222;
+}
+
+.tutor-card .status-value.rejected {
+  background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
+  color: #fff;
+}
+
+/* whatsapp email btn  */
+/* WhatsApp & Email Button Styles */
+.tutor-card a[href*="wa.me"] {
+  background: linear-gradient(90deg, #25d366 60%, #128c7e 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(37,211,102,0.12);
+}
+.tutor-card a[href*="wa.me"]:hover {
+  background: linear-gradient(90deg, #128c7e 60%, #25d366 100%);
+  box-shadow: 0 4px 16px rgba(37,211,102,0.18);
+
+}
+.tutor-card a[href*="wa.me"]:hover {
+  background: linear-gradient(90deg, #128c7e 60%, #25d366 100%);
+  box-shadow: 0 4px 16px rgba(37,211,102,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.tutor-card a[href^="mailto:"] {
+  background: linear-gradient(90deg, #007bff 60%, #00c6ff 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,123,255,0.12);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+}
+
+.tutor-card a[href^="mailto:"]:hover {
+  background: linear-gradient(90deg, #0056b3 60%, #007bff 100%);
+  box-shadow: 0 4px 16px rgba(0,123,255,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.status {
+  background: linear-gradient(90deg, #25d366 60%, #128c7e 100%);
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(37,211,102,0.12);
+}
+.status p {
+  color:#fff;
+}
+
+
+
+</style>
+
+  
+<body>
+  <h1> <i> The Requests Made To The Tutors  </i></h1>
+
+   <h2>Once tutor accepts request you can contact them</h2>
+
+<% if (winks.length > 0) { %>
+  <% winks.forEach(w => { %>
+    <div class="tutor-card">
+      <h3>Tutor: <%= w.tutorId.username %></h3>
+      <p><strong>Subject:</strong> <%= w.requirementInfo.subject %></p>
+      <p><strong>Grade:</strong> <%= w.requirementInfo.grade %></p>
+      <p><strong>Location:</strong> <%= w.requirementInfo.location %></p>
+      <% if (w.requirementInfo.notes) { %>
+        <p><strong>Notes:</strong> <%= w.requirementInfo.notes %></p>
+      <% } %>
+       
+       <button class="status"> <p ><strong>Status:</strong> <%= w.status %></p></button>
+
+      <% if (w.status === "accepted") { %>
+        <p><strong>Contact:</strong>
+          <a href="https://wa.me/91<%= w.tutorId.contact %>" target="_blank">WhatsApp</a>
+        </p>
+        <p><strong>Email:</strong>
+          <a href="mailto:<%= w.tutorId.email %>?subject=Home Tuition Inquiry">Email</a>
+        </p>
+      <% } %>
+    </div>
+  <% }) %>
+<% } else { %>
+  <p>You have not sent any winks yet.</p>
+<% } %>
+
+
+</body>

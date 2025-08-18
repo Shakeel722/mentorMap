@@ -1,0 +1,164 @@
+
+<%- layout("layout/boilerplate.ejs") %>
+
+<style>
+/* Flash Messages */
+.flash-overlay {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    min-width: 250px;
+    text-align: center;
+}
+
+/* Flash types */
+.flash-success {
+    background-color: #28a745;
+}
+.flash-error {
+    background-color: #dc3545;
+}
+.flash-info {
+    background-color: #17a2b8;
+}
+
+/* Show animation */
+.flash-overlay.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Fade out */
+.flash-overlay.hide {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+    pointer-events: none;
+}
+.subject-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.subject-tag {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+
+</style>
+
+<body style="padding-top: 6rem; background-color: #f5f5f5; margin-top: 10vh">
+
+<!-- Flash Messages -->
+<% if (successMessage && successMessage.length > 0) { %>
+  <% successMessage.forEach(msg => { %>
+    <div class="flash-overlay flash-success"><%= msg %></div>
+  <% }) %>
+<% } %>
+
+<% if (errorMessage && errorMessage.length > 0) { %>
+  <% errorMessage.forEach(msg => { %>
+    <div class="flash-overlay flash-error"><%= msg %></div>
+  <% }) %>
+<% } %>
+
+<% if (info && info.length > 0) { %>
+  <% info.forEach(msg => { %>
+    <div class="flash-overlay flash-info"><%= msg %></div>
+  <% }) %>
+<% } %>
+
+
+  <!-- Tutors List -->
+  <% if (tutors.length > 0) { %>
+    <div class="tutors-container">
+      <% tutors.forEach(tutor => { %>
+        <div class="tutor-card">
+          <img class="tutor-image" src="<%= tutor.image %>" alt="Tutor image">
+          <div class="tutor-content">
+
+            <% const titleCase = str =>
+                str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            %>
+            <h3><%= titleCase(tutor.username) %></h3>
+           <p><strong>Subjects:</strong></p>
+             <div class="subject-tags">
+                  <% tutor.subject.forEach(s => { %>
+              <span class="subject-tag"><%= s.charAt(0).toUpperCase() + s.slice(1) %></span>
+                   <% }) %>
+              </div>
+
+
+            <p><strong>Location:</strong> <%= titleCase(tutor.location) %></p>
+            <p><strong>Qualification:</strong> <%= titleCase(tutor.qualification) %></p>
+
+            <!-- wink form -->
+            <form action="/wink/<%= tutor._id %>" method="POST">
+              <!-- <input type="hidden" name="subject" value="<%= searchData.subject %>"> -->
+              <input type="hidden" name="grade" value="<%= searchData.grade %>">
+              <input type="hidden" name="location" value="<%= searchData.location %>">
+              <input type="hidden" name="areaPin" value="<%= searchData.areaPin %>">
+              <input type="" name="notes" value="1hr/day, Rs 3000 /per month" required>
+              <button type="submit" class="wink-btn">Request</button>
+            </form>
+
+            <!-- Show contact only if tutor accepted -->
+            <% if (tutor.showContact) { %>
+              <a href="https://wa.me/91<%= tutor.contact %>" target="_blank" class="contact-btn">
+                💬 Message on WhatsApp
+              </a>
+
+              <a href="mailto:<%= tutor.email %>?subject=Home Tuition Inquiry&body=Hi <%= tutor.username %>, I found you on MentorMap and would like to discuss home tuition." class="contact-btn">
+                📧 Email Tutor
+              </a>
+            <% } %>
+
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="tutor-card">
+      <img class="tutor-image" src="" alt="Tutor image">
+      <div class="tutor-content">
+        <h1 style="text-align:center; font-size:2rem;">No tutors found matching your criteria.</h1>
+      </div>
+    </div>
+  <% } %>
+
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    const flashes = document.querySelectorAll('.flash-overlay');
+
+    flashes.forEach(flash => {
+        // Show the flash
+        flash.classList.add('show');
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+            flash.classList.add('hide');
+            // Remove from DOM after fade out
+            setTimeout(() => flash.remove(), 600);
+        }, 3000);
+    });
+});
+</script>
+
+
+</body>

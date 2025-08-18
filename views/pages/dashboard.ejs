@@ -1,0 +1,150 @@
+<%- layout("layout/boilerplate.ejs") %>
+
+<style>
+
+  /* Dashboard Styles */
+
+/* Heading */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+  font-size: 1.5rem;
+}
+
+/* Card */
+.wink-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+}
+
+.wink-card:hover {
+  transform: translateY(-3px);
+}
+
+.wink-card p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+}
+
+/* Buttons */
+.accept-btn,
+.decline-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin: 8px 4px 0 0;
+  transition: background 0.3s ease;
+}
+
+.accept-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.accept-btn:hover {
+  background-color: #43a047;
+}
+
+.decline-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.decline-btn:hover {
+  background-color: #e53935;
+}
+
+ .main {
+    margin-top: 5rem;
+  }
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 0px;
+  
+  }
+ 
+  .wink-card {
+    padding: 14px;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .wink-card p {
+    font-size: 0.9rem;
+  }
+
+  .accept-btn,
+  .decline-btn {
+    width: 100%;   /* buttons take full width */
+    margin: 8px 0; /* stacked vertically */
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  body{
+    margin-top:4rem;
+  }
+    .main {
+    margin-top: 0rem;
+  }
+
+  }
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .wink-card {
+    padding: 12px;
+  }
+
+  .wink-card p {
+    font-size: 0.85rem;
+  }
+
+
+</style>
+
+<body>
+  
+
+
+<h2>Incoming Requests from the parents</h2>
+<% if (winks.length > 0) { %>
+  <% winks.forEach(wink => { %>
+    <div class="wink-card">
+
+      <p><strong>Subject:</strong> <%= wink.requirementInfo.subject %></p>
+      <p><strong>Grade:</strong> <%= wink.requirementInfo.grade %></p>
+      <p><strong>Location:</strong> <%= wink.requirementInfo.location %></p>
+      <% if (wink.requirementInfo.notes) { %>
+        <p><strong>Notes:</strong> <%= wink.requirementInfo.notes %></p>
+      <% } %>
+
+      <form action="/wink/accept/<%= wink._id %>" method="POST" style="display:inline-block;">
+        <button type="submit" class="accept-btn">Accept</button>
+      </form>
+
+      <form action="/wink/decline/<%= wink._id %>" method="POST" style="display:inline-block;">
+        <button type="submit" class="decline-btn">Decline</button>
+      </form>
+    </div>
+  <% }) %>
+<% } else { %>
+  <p>No parent requested now!</p>
+<% } %>
+
+
+</body>

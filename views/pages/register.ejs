@@ -1,0 +1,157 @@
+<%- layout("layout/boilerplate.ejs") %>
+
+<style>
+  /* Error message styling */
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0px;
+    display: none;
+  }
+
+  /* Input highlight */
+  input.invalid {
+    border: 1px solid red;
+  }
+
+  input.valid {
+    border: 1px solid green;
+  }
+</style>
+
+<body>
+  <div class="register-page">
+    <div class="container">
+      <h2>Register as a Tutor</h2>
+      <form action="/register/tutor" method="POST" enctype="multipart/form-data" id="tutorForm">
+
+        <label for="username">Full Name</label>
+        <input type="text" name="username" id="username" placeholder="Enter your full name" required>
+     <div class="error" id="usernameError">Username cannot be empty.</div>
+
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email" placeholder="Enter your email" required>
+        <div class="error" id="emailError">Enter a valid email.</div>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        <div class="error" id="passwordError">Password must be at least 5 characters.</div>
+
+        <label for="contact">Contact Number</label>
+        <input type="number" name="contact" id="contact" minlength="10" placeholder="Enter your contact number" required>
+        <div class="error" id="contactError">Contact must be numbers only (max 10 digits).</div>
+
+        <label for="qualification">Qualification</label>
+        <input type="text" name="qualification" id="qualification" placeholder="Enter your qualification" required>
+        <div class="error" id="qualificationError">Qualification must contain only letters.</div>
+
+        <label for="subject">Subjects you can teach</label>
+        <input type="text" name="subject" id="subject" placeholder="Science, Math, computer" required>
+        <div class="error" id="subjectError">Subjects must be a comma-separated list.</div>
+
+        <label for="location">Location (Area)</label>
+        <input type="text" name="location" id="location" placeholder="gomtinagar, lucknow" required>
+        <div class="error" id="locationError">Location must be a comma-separated list.</div>
+
+        <label for="areaPin">Area Pin Code</label>
+        <input type="number" name="areaPin" id="areaPin" placeholder="Enter your area pin code" required>
+        <div class="error" id="areaPinError">Area Pin must be a valid number.</div>
+
+        <label for="image">Profile Image</label>
+        <input type="file" name="image" id="image" required>
+        <div class="error" id="imageError">Profile image must be JPG, JPEG, or PNG.</div>
+
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("tutorForm");
+
+      const fields = {
+
+        email: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
+        password: /.{5,}/,
+        contact: /^[0-9]{10}$/,
+        qualification: /^[A-Za-z .]+$/,
+        subject: /^[A-Za-z ,]+$/,
+        location: /^[A-Za-z ,]+$/,
+        areaPin: /^[0-9]{6}$/
+      };
+
+      const errorMessages = {
+
+        email: "Enter a valid email.",
+        password: "Password must be at least 5 characters.",
+        contact: "Contact must be numbers only (max 10 digits).",
+        qualification: "Qualification must contain only letters.",
+        subject: "Subjects must be a comma-separated list.",
+        location: "Location must be a comma-separated list.",
+        areaPin: "Area Pin must be a valid number.",
+        image: "Profile image must be JPG, JPEG, or PNG."
+      };
+
+      function toggleError(input, errorId, isValid) {
+        const errorDiv = document.getElementById(errorId);
+        if (isValid) {
+          errorDiv.style.display = "none";
+          input.classList.remove("invalid");
+          input.classList.add("valid");
+        } else {
+          errorDiv.style.display = "block";
+          input.classList.remove("valid");
+          input.classList.add("invalid");
+        }
+      }
+
+      function validateField(field) {
+      const input = document.getElementById(field); // declare first
+        
+
+          if(field === "username") {
+    const valid = input.value.trim() !== ""; // only check not empty
+    toggleError(input, field + "Error", valid);
+    return valid;
+  }
+
+        const regex = fields[field];
+        const valid = regex.test(input.value.trim());
+        toggleError(input, field + "Error", valid);
+        return valid;
+      }
+
+      function validateImage() {
+        const img = document.getElementById("image");
+        const allowed = ["jpg", "jpeg", "png"];
+        if (img.files.length === 0) return toggleError(img, "imageError", false);
+        const ext = img.files[0].name.split(".").pop().toLowerCase();
+        const valid = allowed.includes(ext);
+        toggleError(img, "imageError", valid);
+        return valid;
+      }
+
+      // Add live validation
+      Object.keys(fields).forEach(field => {
+        document.getElementById(field).addEventListener("input", () => validateField(field));
+      });
+      document.getElementById("image").addEventListener("change", validateImage);
+
+      // On form submit
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        let isValid = Object.keys(fields).every(field => validateField(field));
+        isValid = isValid && validateImage();
+
+        if (!isValid) {
+          alert("Please correct the highlighted errors before submitting.");
+          return false;
+        }
+
+        form.submit();
+      });
+    });
+  </script>
+</body>

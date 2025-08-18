@@ -1,0 +1,124 @@
+ /* === Variables === */
+:root {
+  --nav-offset: 70px;
+  --primary: #14BDEE;
+  --bg: #f7f9fc;
+  --card-bg: #fff;
+  --text: #222;
+}
+
+/* === Page Base === */
+.about-page {
+  padding-top: var(--nav-offset);
+  background: var(--bg);
+  color: var(--text);
+  font-family: sans-serif;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.about-page * {
+  box-sizing: border-box;
+}
+
+.about-page img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* === Hero Section === */
+.about-hero {
+  min-height: 60vh;
+  background: url('/images/about-hero.jpg') center right / cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.about-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  width: 94%;
+  background: rgba(0,0,0,0.36);
+  color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.hero-inner h1 {
+  font-size: clamp(1.6rem, 3vw, 3rem);
+  margin: 0;
+}
+
+.hero-inner p {
+  margin-top: 1rem;
+  font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+  max-width: 900px;
+  margin-inline: auto;
+  text-align: justify;
+  color: rgba(255,255,255,0.95);
+}
+
+/* === About Cards === */
+.about-container {
+  max-width: 1100px;
+  width: 94%;
+  margin: 2.5rem auto 4rem;
+  display: grid;
+  gap: 1.6rem;
+}
+
+.about-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.08);
+}
+
+.about-card h2 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.15rem, 1.8vw, 1.8rem);
+  color: var(--primary);
+  text-align: center;
+}
+
+.about-card p {
+  margin: 0;
+  color: #444;
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/* === Responsive Layout === */
+@media (min-width: 900px) {
+  .about-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-container .about-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .about-hero { background-position: center; }
+  .hero-inner { padding: 1rem; }
+  .about-container { width: 96%; gap: 1rem; }
+}

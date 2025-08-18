@@ -1,0 +1,80 @@
+<%- layout("layout/boilerplate.ejs") %>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+<!-- AOS CSS -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero-container">
+    <img class="hero-image" src="https://cdn.pixabay.com/photo/2024/12/28/01/27/ai-generated-9295105_1280.jpg" alt="Laptop Education">
+    <div class="hero-overlay"></div>
+    <div class="hero-text" data-aos="fade-up" data-aos-delay="300">
+      <h1>Welcome to MentorMap</h1>
+      <p>Connect your child with bright, caring university mentors offering fresh knowledge, guidance, and personalized attention—right from your neighborhood.</p>
+    </div>
+  </div>
+
+  <!-- Search Section -->
+  <section class="search-section">
+    <div class="search-content" data-aos="fade-right" data-aos-delay="200">
+      <h2>Connecting Knowledge, Changing Lives</h2>
+      <p>Sharing Increases the Knowledge</p>
+    </div>
+
+    <div class="search-card" data-aos="zoom-in" data-aos-delay="400">
+      <h3>Find Tutors Near You</h3>
+      <form id="search-form" method="POST" action="/tutors">
+        <div class="form-group">
+          <label for="subject">Subject:</label>
+          <input type="text" id="subject" name="subject" required placeholder="e.g., Science">
+        </div>
+
+        <div class="form-group">
+          <label for="grade">Grade:</label>
+          <input type="text" id="grade" name="grade" required placeholder="e.g., 10">
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location:</label>
+          <input type="text" id="location" name="location" required placeholder="e.g., Lucknow">
+        </div>
+
+        <div class="form-group">
+          <label for="pin-code">Pin Code:</label>
+          <input type="number" id="pin-code" name="areaPin" required placeholder="e.g., 56344">
+
+        </div>
+
+        <input type="hidden" id="lat" name="lat">
+        <input type="hidden" id="lng" name="lng">
+
+        <button type="submit" class="btn-submit">Search for Tutors</button>
+
+
+
+      </form>
+    </div>
+  </section>
+
+  <!-- AOS Script -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    // Get user's location if they allow it
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      document.getElementById('lat').value = position.coords.latitude;
+      document.getElementById('lng').value = position.coords.longitude;
+    });
+  }
+  </script>
+
+</body>
+
+
+

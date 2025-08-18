@@ -1,0 +1,127 @@
+<%- layout("layout/boilerplate.ejs") %>
+
+<style>
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 0px;
+    margin-bottom: 4px;
+    display: none;
+  }
+  input.invalid {
+    border: 1px solid red;
+  }
+  input.valid {
+    border: 1px solid green;
+  }
+</style>
+
+<body>
+  
+
+<div class="register-page">
+  <div class="container">
+    <h2>Register as a Parent</h2>
+    <form action="/parent" method="POST" id="parentForm">
+
+      <label for="name">Name</label>
+      <input type="text" name="username" id="username" placeholder="Enter your full name" required>
+      <div class="error" id="usernameError"></div>
+
+
+       <label for="email">Email</label>
+      <input type="email" name="email" id="email" placeholder="Enter your email" required>
+      <div class="error" id="emailError"></div>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" placeholder="Create a password for yourself" required>
+      <div class="error" id="passwordError"></div>
+
+      <label for="location">Location (Area)</label>
+      <input type="text" name="location" id="location" placeholder="Enter your location" required>
+      <div class="error" id="locationError"></div>
+
+      <label for="areaPin">Area Pin Code</label>
+      <input type="number" name="areaPin" id="areaPin" placeholder="Enter your area pin code" required>
+      <div class="error" id="areaPinError"></div>
+
+      <button type="submit">Register</button>
+      
+    </form>
+  </div>
+</div>
+
+<!-- frontend validation  -->
+
+<script>
+  document.getElementById("parentForm").addEventListener("submit", function (e) {
+    let isValid = true;
+
+    // Reset all errors
+    document.querySelectorAll(".error").forEach(el => el.style.display = "none");
+    document.querySelectorAll("input").forEach(el => el.classList.remove("invalid", "valid"));
+
+    // Username
+    const username = document.getElementById("username");
+    if (username.value.trim().length < 3) {
+      document.getElementById("usernameError").textContent = "Name must be at least 3 characters.";
+      document.getElementById("usernameError").style.display = "block";
+      username.classList.add("invalid");
+      isValid = false;
+    } else {
+      username.classList.add("valid");
+    }
+
+    // Email
+    const email = document.getElementById("email");
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if (!emailPattern.test(email.value.trim())) {
+      document.getElementById("emailError").textContent = "Enter a valid email address.";
+      document.getElementById("emailError").style.display = "block";
+      email.classList.add("invalid");
+      isValid = false;
+    } else {
+      email.classList.add("valid");
+    }
+
+    // Password
+    const password = document.getElementById("password");
+    if (password.value.trim().length < 6) {
+      document.getElementById("passwordError").textContent = "Password must be at least 6 characters.";
+      document.getElementById("passwordError").style.display = "block";
+      password.classList.add("invalid");
+      isValid = false;
+    } else {
+      password.classList.add("valid");
+    }
+
+    // Location
+    const location = document.getElementById("location");
+    if (location.value.trim() === "") {
+      document.getElementById("locationError").textContent = "Location is required.";
+      document.getElementById("locationError").style.display = "block";
+      location.classList.add("invalid");
+      isValid = false;
+    } else {
+      location.classList.add("valid");
+    }
+
+    // Area Pin
+    const areaPin = document.getElementById("areaPin");
+    if (!/^\d{6}$/.test(areaPin.value.trim())) {
+      document.getElementById("areaPinError").textContent = "Enter a valid 6-digit pin code.";
+      document.getElementById("areaPinError").style.display = "block";
+      areaPin.classList.add("invalid");
+      isValid = false;
+    } else {
+      areaPin.classList.add("valid");
+    }
+
+    if (!isValid) {
+      e.preventDefault(); // Stop form submission if validation fails
+    }
+  });
+</script>
+
+
+</body>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mentorMap</title>
+    <link rel="stylesheet" href="/css/style.css">
+    
+   
+</head>
+<body>
+  <header>
+    <div class="nav-bar">
+  <div class="nav-container">
+    <div class="nav-left">
+       <button class="hamburger" id="hamburger" style="color: rgb(113, 88, 88);">
+      &#9776; 
+      </button>
+      <h2>mentorMap</h2>
+     
+    </div>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/about">About</a></li>
+    
+
+      <li>
+              <a href="mailto:whycode06@gmail.com">
+             Contact Us
+              </a>
+       </li>
+      
+      <li class="whatsapp-link">
+        <a href="https://wa.me/917860564112?text=Hi%20I%20am%20interested%20in%20your%20tutoring%20services" target="_blank">
+          📞 WhatsApp Us
+        </a>
+      </li>
+
+
+ <% if( currUser) { %>
+
+    <li class="register-button">
+        <form action="" >
+          <button class="">Hii <%= currUser.username %></button>
+        </form>
+      </li>
+
+    <% } %>
+    
+
+      <% if( !currUser) { %> 
+      
+      <!-- register btn  -->
+      <li class="register-button">
+        <form action="/register" method="GET">
+          <button class="reg-btn">Register as a Tutor</button>
+        </form>
+      </li>
+
+         <li class="register-button">
+        <form action="/parent" method="GET">
+          <button class="reg-btn">Register as a Parent</button>
+        </form>
+      </li>
+                
+      <!-- login btn  -->
+ 
+
+        
+       <li class="register-button">
+        <form action="/login" method="GET">
+          <button class="reg-btn">login</button>
+        </form>
+      </li>
+
+
+     <%  } %> 
+
+     <% if(currUser) { %>
+
+      
+     
+
+     <% if( currUser.subject) { %>
+
+    
+  <li class="register-button">
+        <form action="/tutor/dashboard" method="GET">
+          <button class="reg-btn">Tutor dashboard</button>
+        </form>
+      </li>
+
+     <%   } else { %>
+
+           
+    <li class="register-button">
+        <form action="/parent/dashboard" method="GET">
+          <button class="reg-btn">Parent dashboard</button>
+        </form>
+      </li>
+
+
+     <% } %> 
+
+        <!-- logout btn  -->
+
+      <li class="register-button">
+        <form action="/logout" method="GET">
+          <button class="reg-btn">logout</button>
+        </form>
+      </li>
+
+
+      <%  } %>
+
+
+    
+    </ul>
+  </div>
+
+</div>
+
+  </header>
+
+  <!-- flash message -->
+       <%- include("../include/flash.ejs") %>
+
+     <div class="main"> 
+
+          <%- body %>
+
+     </div>
+
+
+  <footer>
+    
+   <div class="footer">
+      <div class="footer-container">
+        <div class="footer-section brand">
+          <h2>mentorMap</h2>
+          <p>Empowering Students, Enriching Futures.</p>
+          <p>Bridging the gap between learners and mentors.</p>
+        </div>
+    
+        <div class="footer-section links">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Tutor's Info</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+    
+        <div class="footer-section contact">
+          <h3>Contact Us</h3>
+          <p>Email: shakeeelahmed244@gmail.com</p>
+          <p>Phone: 7860564112</p>
+        </div>
+      </div>
+    
+      <div class="footer-bottom">
+        <p>&copy; 2025 mentorMap. All rights reserved.</p>
+      </div>
+    </div>
+
+
+  </footer>
+  <script src="/js/script.js"></script>
+
+</body>
+</html>

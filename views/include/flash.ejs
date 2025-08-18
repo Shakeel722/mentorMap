@@ -1,0 +1,12 @@
+<!-- flash.ejs -->
+<% if (successMessage && successMessage.length > 0) { %>
+  <div class="flash-overlay success-flash">
+    <%= successMessage %>
+  </div>
+<% } %>
+
+<% if (errorMessage && errorMessage.length > 0) { %>
+  <div class="flash-overlay error-flash">
+    <%= errorMessage %>
+  </div>
+<% } %>
