@@ -437,9 +437,6 @@ h2 {
 
   <h1 class="dashboard-title">Requests Made to Tutors</h1>
 <h2 class="dashboard-subtitle">Track your tutor requests here</h2>
-<p class="dashboard-description">
-  Once a tutor accepts your request, you can contact them directly.
-</p>
 
 
 <% if (winks.length > 0) { %>
@@ -466,7 +463,11 @@ h2 {
     </div>
   <% }) %>
 <% } else { %>
-  <p>You have not sent any requests yet.</p>
+  
+  <p class="dashboard-description">
+  Once a tutor accepts your request, you can contact them directly.
+</p>
+
 <% } %>
 
 
