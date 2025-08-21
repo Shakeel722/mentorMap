@@ -1,5 +1,8 @@
 <%- layout("layout/boilerplate.ejs") %>
 
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
 <style>
 /* Parent Dashboard Styles */
 * {
@@ -288,15 +291,156 @@ h2 {
   color:#fff;
 }
 
+/* profile style  */
 
+
+      .parent-profile-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        max-width: 420px;
+        margin: 2rem auto 2.5rem auto;
+        padding: 1.5rem 2rem 1.2rem 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-left: 6px solid #1976d2;
+      }
+      .profile-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.2rem;
+      }
+      .profile-avatar {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #1976d2 60%, #43e97b 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: #fff;
+        font-weight: 700;
+        margin-right: 1.1rem;
+        box-shadow: 0 2px 8px rgba(25,118,210,0.12);
+      }
+      .profile-header h3 {
+        margin: 0 0 2px 0;
+        font-size: 1.25rem;
+        color: #1976d2;
+        font-weight: 700;
+      }
+      .profile-email {
+        margin: 0;
+        font-size: 0.98rem;
+        color: #555;
+        word-break: break-all;
+      }
+      .profile-details p {
+        margin: 7px 0;
+        font-size: 1.01rem;
+        color: #444;
+      }
+      .profile-details strong {
+        color: #1976d2;
+        font-weight: 600;
+        margin-right: 4px;
+      }
+      @media (max-width: 600px) {
+        .parent-profile-card {
+          padding: 1rem 0.7rem;
+        }
+        .profile-header h3 {
+          font-size: 1.05rem;
+        }
+        .profile-avatar {
+          width: 44px;
+          height: 44px;
+          font-size: 1.3rem;
+        }
+        .profile-details p {
+          font-size: 0.95rem;
+        }
+      }
+
+      .dashboard-title {
+
+  font-size: 2rem;          
+  font-weight: 700;         
+  color: #2c3e50;          
+  margin-bottom: 0.5rem;    
+  text-align: center; 
+  padding: 0.1rem;      
+}
+
+.dashboard-subtitle {
+  font-size: 1.2rem;        
+  font-weight: 500;         
+  color: #34495e;           
+  margin-bottom: 1rem;      
+  text-align: center;       
+}
+
+.dashboard-description {
+  font-size: 1rem;          
+  color: #555;              
+  line-height: 1.6;        
+  text-align: center;      
+  max-width: 600px;         
+  margin: 0 auto;          
+}
+
+  
 
 </style>
 
   
 <body>
-  <h1> <i> The Requests Made To The Tutors  </i></h1>
 
-   <h2>Once tutor accepts request you can contact them</h2>
+  <% if (parent) { %>
+    <div class="parent-profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <span><%= parent.username ? parent.username.charAt(0).toUpperCase() : "P" %></span>
+        </div>
+        <div>
+          <h3><%= parent.username %></h3>
+          <p class="profile-email"><i class="fa fa-envelope"></i> <%= parent.email %></p>
+        </div>
+      </div>
+      <div class="profile-details">
+        <% if (parent.location) { %>
+          <p><strong>Location:</strong> <%= parent.location %></p>
+        <% } %>
+        <% if (parent.areaPin) { %>
+          <p><strong>Area Pin:</strong> <%= parent.areaPin %></p>
+        <% } %>
+        <% if (parent.contact) { %>
+          <p><strong>Contact:</strong> <%= parent.contact %></p>
+        <% } %>
+        <% if (parent.childName) { %>
+          <p><strong>Child's Name:</strong> <%= parent.childName %></p>
+        <% } %>
+        <% if (parent.childGrade) { %>
+          <p><strong>Child's Grade:</strong> <%= parent.childGrade %></p>
+        <% } %>
+        <% if (parent.notes) { %>
+          <p><strong>Notes:</strong> <%= parent.notes %></p>
+        <% } %>
+      </div>
+    </div>
+   
+  <% } %>
+
+  <hr> 
+
+  <h1 class="dashboard-title">Requests Made to Tutors</h1>
+<h2 class="dashboard-subtitle">Track your tutor requests here</h2>
+<p class="dashboard-description">
+  Once a tutor accepts your request, you can contact them directly.
+</p>
+
 
 <% if (winks.length > 0) { %>
   <% winks.forEach(w => { %>
@@ -322,7 +466,7 @@ h2 {
     </div>
   <% }) %>
 <% } else { %>
-  <p>You have not sent any winks yet.</p>
+  <p>You have not sent any requests yet.</p>
 <% } %>
 
 

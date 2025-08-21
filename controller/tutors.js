@@ -127,6 +127,8 @@ module.exports.tutorRegistration = async (req, res) => {
   }
 }
 
+
+
 module.exports.recievedWinks = async (req, res) => {
     try {
         const tutorId = req.user._id;
@@ -135,13 +137,18 @@ module.exports.recievedWinks = async (req, res) => {
         const winks = await Wink.find({ tutorId, status: "pending" })
             .populate("parentId"); // populate parent info
 
-        res.render("pages/dashboard", { winks });
+        // Pass both winks and tutor to the dashboard
+        res.render("pages/dashboard", { 
+            winks, 
+            tutor: req.user   // passed the tutor info
+        });
     } catch (err) {
         console.error(err);
         req.flash("error", "Could not load dashboard.");
         res.redirect("/");
     }
-}
+};
+
 
 module.exports.acceptWink =  async (req, res) => {
     try {

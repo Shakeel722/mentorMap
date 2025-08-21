@@ -43,11 +43,13 @@ module.exports.parentDashboard = async (req, res) => {
         const winks = await Wink.find({ parentId })
             .populate("tutorId"); // get tutor details
 
-        res.render("pages/parent-dashboard.ejs", { winks });
+        // Get parent details
+        const parent = await Parent.findById(parentId);
+
+        res.render("pages/parent-dashboard.ejs", { winks, parent });
     } catch (err) {
         console.error(err);
         req.flash("error", "Could not load dashboard.");
         res.redirect("/home");
     }
-
 }
